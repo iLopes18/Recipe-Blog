@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog de Receitas</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase compat -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Blog de Receitas</h1>
+    <nav>
+      <ul>
+        <li><button type="button" onclick="showSection('login')">Login</button></li>
+        <li><button type="button" onclick="showSection('receitas')">Receitas</button></li>
+        <li><button type="button" onclick="showSection('aleatorio')">Escolher por mim</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Login -->
+    <section id="login" class="hidden">
+      <div id="login-div">
+        <h2>Login</h2>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-password" placeholder="Password">
+        <button onclick="login()">Login</button>
+      </div>
+
+      <!-- Adicionar receitas (só aparece se estiver logado) -->
+      <div id="adicionar-div" style="display:none;">
+        <h2>Adicionar Receita Individual</h2>
+        <input type="text" id="nome-receita" placeholder="Nome da receita">
+        <input type="text" id="porcao-receita" placeholder="Porção (ex: 1 pessoa)">
+        <select id="categoria-receita">
+          <option value="frango">Frango</option>
+          <option value="atum-salmão">Atum e Salmão</option>
+          <option value="peixe">Peixe</option>
+          <option value="ovos-salsichas">Ovos e Salsichas</option>
+        </select>
+        <textarea id="ingredientes-receita" placeholder="Ingredientes (uma linha por item)"></textarea>
+        <textarea id="instrucoes-receita" placeholder="Instruções Curtas"></textarea>
+        <input type="text" id="tempo-preparo" placeholder="Tempo de preparação (min)">
+        <input type="text" id="tempo-cozedura" placeholder="Tempo de cozedura (min)">
+        <button onclick="adicionarReceita()">Adicionar</button>
+        <button onclick="logout()">Logout</button>
+
+        <hr>
+
+        <h3>Adicionar várias receitas de uma vez (JSON)</h3>
+        <textarea id="receitas-multiples" placeholder='Cole aqui o JSON com várias receitas'></textarea>
+        <button onclick="validarReceitas()">Validar Receitas</button>
+        <div id="validacao-result" style="margin-top:15px;"></div>
+        <button id="enviar-todas" onclick="enviarReceitasValidas()" style="display:none;">Enviar Receitas Válidas</button>
+        <p>Formato esperado: array JSON com campos: nome, porcao, categoria, ingredientes, instrucoes, tempoPreparo, tempoCozedura</p>
+      </div>
+    </section>
+
+    <!-- Receitas -->
+    <section id="receitas">
+      <h2>Todas as Receitas</h2>
+      <ul id="lista-receitas"></ul>
+    </section>
+
+    <!-- Escolher por mim -->
+    <section id="aleatorio" class="hidden">
+      <h2>Escolher Receita Aleatória</h2>
+      <div class="checkboxes">
+        <label><input type="checkbox" value="frango"> Frango</label>
+        <label><input type="checkbox" value="atum-salmão"> Atum e Salmão</label>
+        <label><input type="checkbox" value="peixe"> Peixe</label>
+        <label><input type="checkbox" value="ovos-salsichas"> Ovos e Salsichas</label>
+      </div>
+      <button onclick="escolherAleatoria()">Escolher</button>
+      <p id="receita-aleatoria"></p>
+    </section>
+  </main>
+
+  <!-- Modal de receita -->
+  <div id="modal-receita">
+    <div class="conteudo">
+      <span class="fechar" onclick="fecharModal()">&times;</span>
+      <div id="modal-conteudo"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

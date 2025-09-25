@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Shadows+Into+Light&display=swap');
+
+body {
+  font-family: 'Shadows Into Light', cursive;
+  background-color: #fff8f0;
+  color: #4b3e2a;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  font-size: 1.1rem; /* letra geral aumentada */
+}
+
+/* Header e menu */
+header {
+  position: sticky;
+  top: 0;
+  background-color: #fff2e8;
+  padding: 10px 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+header h1 {
+  font-family: 'Amatic SC', cursive;
+  font-size: 2.8rem;
+  margin: 0;
+  color: #d67c4e;
+}
+
+header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+header nav ul li button {
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 1.3rem;
+  color: #4b3e2a;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+header nav ul li button:hover {
+  color: #ffffff; /* letras ficam brancas */
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+section {
+  width: 90%;
+  padding: 25px;
+  background-color: #fff2e8;
+  border-radius: 15px;
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+  margin: 40px 0;
+}
+
+/* Inputs e botões */
+input, select, textarea, button {
+  display: block;
+  margin: 10px auto;
+  padding: 12px;
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 1.1rem;
+  border: 2px solid #f2c9ac;
+  border-radius: 10px;
+  background-color: #fff5ee;
+  width: 100%;
+  max-width: 400px;
+}
+
+button {
+  background-color: #f2b88c;
+  color: #fff8f0;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+button:hover {
+  background-color: #d67c4e;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Receitas em grid */
+#lista-receitas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 80px; /* espaço entre os cards */
+  list-style: none;
+  padding: 20px 40px; /* aumenta o padding lateral */
+  justify-items: center;
+  max-width: 1000px; /* reduz o max-width para deixar margem lateral */
+  margin: 0 auto;
+}
+
+
+#lista-receitas li {
+  background-color: #fff2e8;
+  border: 2px solid #f2c9ac;
+  border-radius: 15px;
+  padding: 30px; /* aumenta o padding interno do card */
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 300px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+/* Hover do card */
+#lista-receitas li:hover {
+  transform: scale(1.03);
+  box-shadow: 6px 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Categorias com emojis */
+#lista-receitas li[data-categoria="frango"]::before { content: "🍗 "; color: #f7a072; }
+#lista-receitas li[data-categoria="atum-salmão"]::before { content: "🐟 "; color: #7ac7c4; }
+#lista-receitas li[data-categoria="peixe"]::before { content: "🐠 "; color: #6ea1c4; }
+#lista-receitas li[data-categoria="ovos-salsichas"]::before { content: "🥚 "; color: #f5d26c; }
+
+/* Receita aleatória */
+#aleatorio p { white-space: pre-line; font-size: 1.15rem; margin-top: 10px; }
+
+/* Modal de receita */
+#modal-receita {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.3s;
+}
+
+#modal-receita .conteudo {
+  background-color: #fff8f0;
+  padding: 25px;
+  border-radius: 20px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  font-family: 'Shadows Into Light', cursive;
+  color: #4b3e2a;
+  transform: scale(0.7);
+  animation: grow 0.3s forwards;
+}
+
+#modal-receita .fechar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #d67c4e;
+}
+
+/* Animações do modal */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes grow { from { transform: scale(0.7); } to { transform: scale(1); } }
+
+/* Responsivo */
+@media (max-width: 600px) {
+  header h1 { font-size: 2.2rem; }
+  header nav ul li button { font-size: 1rem; }
+  input, select, textarea, button { max-width: 100%; }
+  #lista-receitas li { max-width: 100%; padding: 20px; }
+}
+
+.hidden { display: none; }
