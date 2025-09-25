@@ -34,29 +34,48 @@ function logout() {
 
 // -------------------- Adicionar Receitas --------------------
 function adicionarReceita() {
-  const nome = document.getElementById('nome-receita').value;
-  const porcao = document.getElementById('porcao-receita').value;
+  const nome = document.getElementById('nome-receita').value.trim();
+  const porcao = document.getElementById('porcao-receita').value.trim();
   const categoria = document.getElementById('categoria-receita').value;
-  const ingredientes = document.getElementById('ingredientes-receita').value;
-  const instrucoes = document.getElementById('instrucoes-receita').value;
-  const tempoPreparo = document.getElementById('tempo-preparo').value;
-  const tempoCozedura = document.getElementById('tempo-cozedura').value;
+  const ingredientes = document.getElementById('ingredientes-receita').value.trim();
+  const instrucoes = document.getElementById('instrucoes-receita').value.trim();
+  const tempoPreparo = document.getElementById('tempo-preparo').value.trim();
+  const tempoCozedura = document.getElementById('tempo-cozedura').value.trim();
 
   if (!nome || !porcao || !ingredientes || !instrucoes) {
     alert('Preenche todos os campos obrigatórios!');
     return;
   }
 
-  db.collection('receitas').add({ nome, porcao, categoria, ingredientes, instrucoes, tempoPreparo, tempoCozedura })
-    .then(() => {
-      alert('Receita adicionada!');
-      document.getElementById('nome-receita').value = '';
-      document.getElementById('porcao-receita').value = '';
-      document.getElementById('ingredientes-receita').value = '';
-      document.getElementById('instrucoes-receita').value = '';
-      document.getElementById('tempo-preparo').value = '';
-      document.getElementById('tempo-cozedura').value = '';
-      carregarReceitas();
+  // Verifica se já existe receita com o mesmo nome
+  db.collection('receitas').where('nome', '==', nome).get()
+    .then(snapshot => {
+      if (!snapshot.empty) {
+        alert('Já existe uma receita com este nome!');
+        return;
+      }
+
+      // Se não existir, adiciona a receita
+      db.collection('receitas').add({
+        nome,
+        porcao,
+        categoria,
+        ingredientes,
+        instrucoes,
+        tempoPreparo,
+        tempoCozedura
+      })
+      .then(() => {
+        alert('Receita adicionada!');
+        document.getElementById('nome-receita').value = '';
+        document.getElementById('porcao-receita').value = '';
+        document.getElementById('ingredientes-receita').value = '';
+        document.getElementById('instrucoes-receita').value = '';
+        document.getElementById('tempo-preparo').value = '';
+        document.getElementById('tempo-cozedura').value = '';
+        carregarReceitas();
+      })
+      .catch(err => alert(err.message));
     })
     .catch(err => alert(err.message));
 }
@@ -171,3 +190,4 @@ window.onload = () => {
   showSection('receitas');
   carregarReceitas();
 };
+
